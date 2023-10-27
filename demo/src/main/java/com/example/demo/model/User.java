@@ -1,6 +1,15 @@
 package com.example.demo.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+@Document(collection = "users")
 public class User {
+
+    @Id
+    @Field("_id")
+    private String mongoId;
     private String id;
     private String username;
     private String name;
@@ -17,6 +26,14 @@ public class User {
         this.name = name;
         this.surname = surname;
         this.address = address;
+    }
+
+    public String getMongoId() {
+        return id;
+    }
+
+    public void setMongoId(String id) {
+        this.id = id;
     }
 
     // Getters and setters
@@ -60,4 +77,3 @@ public class User {
         this.address = address;
     }
 }
-
