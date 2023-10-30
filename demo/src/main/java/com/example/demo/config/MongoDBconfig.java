@@ -15,7 +15,6 @@ class MongoDBConfig extends AbstractMongoClientConfiguration {
 
     @Override
     protected String getDatabaseName() {
-        System.out.println("Estoy aqui" + users);
         return users;
     }
 

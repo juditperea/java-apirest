@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search user by username</title>
+    <style>
+        body {
+            font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+            background-color: #303030;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #userForm {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #userId {
+            margin-bottom: 10px;
+        }
+
+        #resultado {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form id="userForm">
+        <label for="userId">Search user by username:</label><br>
+        <input type="text" id="userId" name="userId" required><br>
+
+        <button type="button" onclick="buscarUsuario()">Search</button>
+    </form>
+
+    <div id="resultado"></div>
+
+    <script>
+        function buscarUsuario() {
+            var userId = document.getElementById('userId').value;
+
+            // Realizar una solicitud GET al endpoint de la API REST usando fetch
+            fetch('http://localhost:8080/user/' + userId, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    // Verificar si la respuesta es exitosa (código de estado 200)
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Usuario no encontrado');
+                })
+                .then(data => {
+                    // Concatenar los datos del usuario en una cadena
+                    var resultadoString = 'ID: ' + data.id + '<br>' +
+                        'Username: ' + data.username + '<br>' +
+                        'Name: ' + data.name + '<br>' +
+                        'Surname: ' + data.surname + '<br>' +
+                        'Country: ' + data.address.country + '<br>' +
+                        'City: ' + data.address.city + '<br>' +
+                        'Street: ' + data.address.street;
+
+                    // Asignar la cadena al elemento 'resultado' usando innerHTML para preservar los saltos de línea
+                    document.getElementById('resultado').innerHTML = resultadoString;
+                })
+                .catch(error => {
+                    // Manejar errores si el usuario no es encontrado o si hay otros problemas
+                    console.error('Error:', error);
+                    document.getElementById('resultado').innerText = 'Usuario no encontrado';
+                });
+        }
+    </script>
+</body>
+
+</html>
