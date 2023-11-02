@@ -13,15 +13,18 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    public User saveUser(User user) {
+        // Guarda el usuario en la base de datos
+        User savedUser = userRepository.save(user);
+
+        return savedUser;
+    }
+
     public User findUserById(String userId) {
         return userRepository.findById(userId).orElse(null);
     }
 
     public User findUserByUsername(String usernameString) {
         return userRepository.findByUsername(usernameString);
-    }
-
-    public User saveUser(User user) {
-        return userRepository.save(user);
     }
 }
